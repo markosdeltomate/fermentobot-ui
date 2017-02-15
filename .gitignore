@@ -6,3 +6,5 @@ reports
 .sass-cache
 .tmp
 npm-debug.log
+/yarn.lock
+/process.env.js
