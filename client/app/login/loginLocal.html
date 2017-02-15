@@ -1,0 +1,44 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <h1 class="text-center login-title">Sign in to continue to BeerBotJS</h1>
+            <div class="account-wall">
+                <img class="profile-img" src="/assets/images/bender.png" alt="">
+                <form class="form-signin" name="loginForm" role="form" ng-submit="login.doLogin()">
+                    <div ng-class="login.alertClass" role="alert" ng-show="login.alertClass !== 'hidden'">
+                        <span ng-bind-html=login.message | translate></span>
+                    </div>
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Email"
+                        ng-model="login.email"
+                        required
+                        autofocus>
+
+                    <input
+                        type="password"
+                        class="form-control"
+                        placeholder="Password"
+                        ng-model="login.password"
+                        required>
+
+                    <button
+                        class="btn btn-lg btn-primary btn-block"
+                        ng-disabled="login.isLoading"
+                        type="submit">
+                        Sign in</button>
+                    <div class="checkbox">
+                        <label for="remember">
+                            <input type="checkbox" id="remember" name="remember" value="remember-me">
+                            Remember me
+                        </label>
+                    </div>
+                    <!-- <a href="#" class="pull-right need-help">Need help? </a> -->
+                    <span class="clearfix"></span>
+                </form>
+            </div>
+            <!-- <a href="#" class="text-center new-account">Create an account </a> -->
+        </div>
+    </div>
+</div>

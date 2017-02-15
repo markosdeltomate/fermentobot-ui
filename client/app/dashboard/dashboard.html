@@ -1,0 +1,71 @@
+
+<div class="container-fluid">
+    <h1>Dashboard</h1>
+    <div class="row">
+        <div class="form-group col-md-3" ng-if="$ctrl.batches.length > 1">
+            <label for="select-batch">Select a Node</label>
+            <select ng-model="$ctrl.currentNode" name="select-batch" id="select-batch" ng-change="$ctrl.getNodeHistory()">
+                <option value="batch.id" ng-repeat="batch in $ctrl.batches track by batch.id">{{batch.name}}</option>
+            </select>
+        </div>
+        <div class="form-group col-md-2">
+            <label for="select-date-range">Date Range</label>
+            <select
+                name="select-date-range"
+                id="select-date-range"
+                class="form-control"
+                ng-options="range.name for range in $ctrl.supportedRanges"
+                ng-change="$ctrl.changeDateRange()"
+                ng-model="$ctrl.range">
+            </select>
+        </div>
+        <div class="form-group col-md-2" ng-if="$ctrl.range.type === 'range'">
+            <label for="range-from">From:</label>
+            <p class="input-group">
+                <input
+                    id="range-from"
+                    type="text"
+                    class="form-control"
+                    uib-datepicker-popup="dd-MM-yyyy"
+                    ng-model="$ctrl.range.from"
+                    is-open="dateFrom.opened"
+                    datepicker-options="$ctrl.dateOptions"
+                    ng-required="true"
+                    ng-readonly="true"
+                    close-text="Close">
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-primary" ng-click="dateFrom.opened = 1"><i class="fa fa-calendar"></i></button>
+                </span>
+            </p>
+        </div>
+        <div class="form-group col-md-2" ng-if="$ctrl.range.type === 'range'">
+            <label for="range-to">To:</label>
+            <p class="input-group">
+                <input
+                    id="range-to"
+                    type="text"
+                    class="form-control"
+                    uib-datepicker-popup="dd-MM-yyyy"
+                    ng-model="$ctrl.range.to"
+                    is-open="dateTo.opened"
+                    datepicker-options="$ctrl.dateOptions"
+                    ng-required="true"
+                    ng-readonly="true"
+                    close-text="Close">
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-primary" ng-click="dateTo.opened = 1"><i class="fa fa-calendar"></i></button>
+                </span>
+            </p>
+        </div>
+        <div class="form-group col-md-1" ng-if="$ctrl.range.type === 'range'">
+            <label for="get-history">&nbsp;</label>
+            <button id="get-history" class="btn btn-success form-control" ng-click="$ctrl.getNodeHistory();">Get History</button>
+        </div>
+    </div>
+    <div class="row" ng-if="$ctrl.chartConfig.series.length > 0">
+        <div class="col-md-12">
+            <highchart id="history-chart" config="$ctrl.chartConfig"></highchart>
+        </div>
+    </div>
+</div>
+

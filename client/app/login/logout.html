@@ -1,0 +1,30 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <h1 class="text-center login-title">Sign out</h1>
+            <div class="account-wall">
+                <img class="profile-img" src="/assets/images/bender.png" alt="">
+                <form class="form-signin">
+                    <div class="text-center">
+                        <h5>Are you sure you want to log out?</h5>
+                    </div>
+                    <div class="col-xs-6">
+                        <button
+                            class="btn btn-sm btn-success btn-block"
+                            ng-click="logout.cancel()"
+                            type="button">
+                            Cancel</button>
+                    </div>
+                    <div class="col-xs-6">
+                        <button
+                            class="btn btn-md btn-danger btn-block"
+                            ng-click="logout.doLogout()"
+                            type="submit">
+                            Logout</button>
+                    </div>
+                    <span class="clearfix"></span>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
