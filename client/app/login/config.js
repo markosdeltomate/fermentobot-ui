@@ -12,7 +12,7 @@ export function configLogin($stateProvider) {
         }
     });
     $stateProvider.state('redirect', {
-        url: '/redirect',
+        url: '/redirect/',
         controller: LoginController,
         controllerAs: 'redirect',
         template: require('./redirect.html')

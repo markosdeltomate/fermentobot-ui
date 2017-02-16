@@ -9,7 +9,7 @@ export function configDefaultRoute($urlRouterProvider, $locationProvider, $authP
         scope: ['profile', 'email']
     });
 
-    $urlRouterProvider.otherwise('/dashboard');
+    $urlRouterProvider.otherwise('/dashboard/');
     $locationProvider.html5Mode(true);
 }
 
@@ -22,17 +22,17 @@ export function configRun($rootScope, $auth, $location, $uibModalStack) {
         let payload;
         if (to.authenticate && !$auth.isAuthenticated()) {
             event.preventDefault();
-            return $location.path('/login');
+            return $location.path('/login/');
         }
 
         if ($auth.isAuthenticated() && to.name === 'login') {
             event.preventDefault();
-            return $location.path('/dashboard');
+            return $location.path('/dashboard/');
         }
         payload = $auth.getPayload();
         if (to.authenticate !== 'user' && payload && to.authenticate !== payload.role) {
             event.preventDefault();
-            return $location.path('/dashboard');
+            return $location.path('/dashboard/');
         }
         $uibModalStack.dismissAll('stateChangeStart');
     });

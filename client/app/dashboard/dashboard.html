@@ -2,10 +2,14 @@
 <div class="container-fluid">
     <h1>Dashboard</h1>
     <div class="row">
-        <div class="form-group col-md-3" ng-if="$ctrl.batches.length > 1">
-            <label for="select-batch">Select a Node</label>
-            <select ng-model="$ctrl.currentNode" name="select-batch" id="select-batch" ng-change="$ctrl.getNodeHistory()">
-                <option value="batch.id" ng-repeat="batch in $ctrl.batches track by batch.id">{{batch.name}}</option>
+        <div class="form-group col-md-3">
+            <label for="select-batch">Select a Batch</label>
+            <select
+                    class="form-control"
+                    ng-model="$ctrl.currentBatch"
+                    name="select-batch" id="select-batch"
+                    ng-change="$ctrl.getNodeHistory()"
+                    ng-options="batch.name for batch in $ctrl.batches">
             </select>
         </div>
         <div class="form-group col-md-2">

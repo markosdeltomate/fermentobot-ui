@@ -8,6 +8,7 @@ let Schema = mongoose.Schema,
         value: Number,
         batchId: {type: String, index: true},
         humidity: Boolean,
+        profile: String,
         status: String
     }),
     model = mongoose.model('Readings', ReadingsSchema);

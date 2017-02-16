@@ -18,8 +18,7 @@ class DashboardController {
 
         this.statusWithSymbols = new Set(['COOLER_ON', 'COOLER_OFF', 'HEATER_ON', 'HEATER_OFF']);
 
-        this.batches = {};
-        this.currentBatch = null;
+        this.batches = [];
 
         this.range = {
             type: 'recent',
@@ -61,12 +60,18 @@ class DashboardController {
 
     getBatches() {
         this.service.getBatches().then((batches) => {
-            this.batches = batches.map(batch => ({id: batch._id, name: batch._id}));
-
-            if (this.batches.length > 0) {
+            batches.forEach(batch => {
+                if (batch.profiles.length) {
+                    let {_id, profiles} = batch;
+                    this.batches.push({
+                        id: _id,
+                        name: _id,
+                        profiles
+                    });
+                }
+            });
+            if (this.batches.length) {
                 this.currentBatch = this.batches[0];
-                this.chartConfig.title.text = this.currentBatch.name;
-                this.getBatchHistory();
             }
         });
     }

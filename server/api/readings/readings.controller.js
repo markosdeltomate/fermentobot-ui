@@ -18,7 +18,7 @@ function handleError(res, err) {
 export function batchIndex(req, res) {
     Readings
         .aggregate()
-        .group({_id: "$batchId"})
+        .group({_id: "$batchId", profiles: {$addToSet: "$profile"}})
         .exec((err, batches) => {
             if (err) {
                 return handleError(res, err);
@@ -48,6 +48,74 @@ export function getByDate(req, res, dateFrom, dateTo = moment()) {
     });
 }
 
+export function getGrouped(req, res, dateFrom, dateTo = moment()) {
+
+ console.log({
+    $lte: dateTo.toDate(),
+    $gte: dateFrom.toDate()
+ });
+    let match = {
+            batchId: req.params.batchId,
+            time: {
+                $lte: dateTo.toDate(),
+                $gte: dateFrom.toDate()
+                //$gte: moment('2017-02-07 10:58', 'YYYY-MM-DD HH:mm').toDate(),
+                //$lte: moment('2017-02-07 10:59', 'YYYY-MM-DD HH:mm').toDate()
+            },
+            profile: "Control de fermentado"
+        },
+        group = {
+            _id: { "$dateToString": { "format": "%Y-%m-%d %H", "date": "$time"}},
+            status: {$first: "$status"},
+            time: {$first: "$time"},
+            values: {
+                $avg: "$value"
+            }
+        },
+        project = {
+            time: 1,
+            status: 1,
+            humidity: 1,
+            value: {
+                $divide: [
+                {
+                    $subtract: [
+                        {
+                            $multiply: ['$values', 100]
+                        },
+                        {
+                            $mod:[
+                                {$multiply:['$values',100]},
+                                1
+                            ]
+                        }
+                    ]
+                },
+                100]
+            }
+        },
+        sort = 'time';
+    //console.log(dateFrom);
+    //console.log(dateTo);
+    Readings
+        //.find(match,
+        .aggregate()
+        .match(match)
+        .group(group)
+        .project(project)
+        .sort(sort)
+        .exec(
+            (err, readings) => {
+            if (err) {
+                return handleError(res, err);
+            }
+            if (!readings) {
+                return res.status(404);
+            }
+            return res.status(200).json(readings);
+        });
+}
+
 // Get last hour activity
 export function lastHour(req, res) {
     let hour = moment().subtract(1, 'hour');
@@ -73,6 +141,11 @@ export function range(req, res) {
     getByDate(req, res, dateFrom, dateTo);
 }
 
+// Get ranged activity
+export function test(req, res) {
+    let week = moment().subtract(3, 'week');
+    getGrouped(req, res, week);
+}
 
 // Creates a new readings in the DB.
 export function add(req, res) {

@@ -5,7 +5,7 @@ export function configDashboard($stateProvider) {
 
     $stateProvider.state({
         name: 'dashboard',
-        url: '/dashboard',
+        url: '/dashboard/',
         authenticate: 'user',
         template: require('./dashboard.html'),
         controller: DashboardController,
